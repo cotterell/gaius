@@ -1,7 +1,7 @@
 /**
  * **Gaius** is a library for fast functional programming.
  * @module gaius
- * @example <caption>Usage.</caption>
+ * @example
  * const gaius = require('gaius');
  */
 
