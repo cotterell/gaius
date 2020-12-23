@@ -1,7 +1,6 @@
 module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-gh-pages');
-  // grunt.loadNpmTasks('grunt-git');
   grunt.loadNpmTasks('grunt-mkdir');
   grunt.loadNpmTasks('grunt-run');
   grunt.loadNpmTasks('grunt-simple-nyc');
@@ -9,23 +8,28 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    pkg_dist: '<%= pkg.name %>@<%= pkg.version %>',
+    pkg_dist: 'dist',
+    pkg_current: '<%= pkg_dist %>/<%= pkg.name %>@<%= pkg.version %>',
+    pkg_latest: '<%= pkg_dist %>/<%= pkg.name %>@latest',
     'gh-pages': {
-      options: {
-        base: '<%= pkg_dist %>',
-        message: 'Auto-generated commit for <%= pkg_dist %>.'
-      },
-      src: '**/*'
+      dist: {
+        options: {
+          base: '<%= pkg_dist %>',
+          only: ['<%= pkg_current %>', '<%= pkg_latest %>'],
+          message: 'Auto-generated commit for <%= pkg.name %>@<%= pkg.version %>.'
+        },
+        src: '**/*'
+      }
     },
     run: {
       docs: {
-        exec: 'documentation build src/** -f html -o <%= pkg_dist %>/docs'
+        exec: 'documentation build src/** -f html -o <%= pkg_current %>/docs'
       }
     },
     mkdir: {
       dist: {
         options: {
-          create: ['<%= pkg_dist %>']
+          create: ['<%= pkg_current %>', '<%= pkg_latest %>']
         }
       }
     },
@@ -33,14 +37,45 @@ module.exports = function(grunt) {
       test: {
         options: {
           reporter: ['html', 'text'],
-          reportDir: '<%= pkg_dist %>/coverage'
+          reportDir: '<%= pkg_current %>/coverage'
         },
         cmd: false,
-        args: ['mocha', '--reporter', 'mochawesome', '--reporter-options', 'quiet=true,reportDir=<%= pkg_dist %>/tests']
+        args: ['mocha', '--reporter', 'mochawesome', '--reporter-options', 'quiet=true,reportDir=<%= pkg_current %>/tests,reportFilename=index.html']
       }
     }
   });
 
-  grunt.registerTask('dist', ['mkdir:dist', 'nyc:test', 'run:docs', 'gh-pages']);
+  grunt.registerTask('dist-copy-latest', 'Copy the current dist/gaius@version directory into dist/gaius@latest.', function() {
+    grunt.config.requires('pkg_current');
+    grunt.config.requires('pkg_latest');
+    grunt.task.requires(['nyc:test', 'run:docs']);
+    const copydir = require('copy-dir');
+    const pkg_current = grunt.config('pkg_current');
+    const pkg_latest = grunt.config('pkg_latest');
+    copydir.sync(pkg_current, pkg_latest);
+    grunt.log.ok(`copied ${pkg_current} to ${pkg_latest}`);
+  });
+
+  grunt.registerTask('dist-index', 'Create the dist/index.html file.', function() {
+    grunt.config.requires('pkg_dist');
+    grunt.task.requires('mkdir:dist');
+    const fs = require('fs');
+    const md = require('markdown-it')();
+    const pkg_dist = grunt.config('pkg_dist');
+    const pkg_dist_index = `${pkg_dist}/index.html`;
+    template = fs.readFileSync('dist.md.tpl', 'utf8');
+    grunt.log.ok('read dist.md.tpl');
+    fs.writeFileSync(pkg_dist_index, md.render(template), 'utf8');
+    grunt.log.ok(`created ${pkg_dist_index} from dist.md.tpl`);
+  });
+
+  grunt.registerTask('dist', [
+    'mkdir:dist',
+    'nyc:test',
+    'run:docs',
+    'dist-copy-latest',
+    'dist-index',
+    'gh-pages:dist']
+  );
 
 };
