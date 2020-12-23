@@ -1,6 +1,7 @@
 module.exports = function(grunt) {
 
-  grunt.loadNpmTasks('grunt-git');
+  grunt.loadNpmTasks('grunt-gh-pages');
+  // grunt.loadNpmTasks('grunt-git');
   grunt.loadNpmTasks('grunt-mkdir');
   grunt.loadNpmTasks('grunt-run');
   grunt.loadNpmTasks('grunt-simple-nyc');
@@ -9,6 +10,13 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     pkg_dist: '<%= pkg.name %>@<%= pkg.version %>',
+    'gh-pages': {
+      options: {
+        base: '<%= pkg_dist %>',
+        message: 'Auto-generated commit for <%= pkg_dist %>.'
+      },
+      src: '**/*'
+    },
     run: {
       docs: {
         exec: 'documentation build src/** -f html -o <%= pkg_dist %>/docs'
