@@ -1,6 +1,6 @@
 {
     "name": "gaius",
-    "version": "0.3.1",
+    "version": "0.3.2",
     "description": "Fast functional programming.",
     "main": "src/gaius.js",
     "scripts": {
