@@ -41,6 +41,6 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('dist', ['mkdir:dist', 'nyc:test', 'run:docs']);
+  grunt.registerTask('dist', ['mkdir:dist', 'nyc:test', 'run:docs', 'gh-pages']);
 
 };
