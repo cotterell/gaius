@@ -15,7 +15,7 @@ module.exports = function(grunt) {
       dist: {
         options: {
           base: '<%= pkg_dist %>',
-          only: ['<%= pkg_current %>', '<%= pkg_latest %>'],
+          add: true,
           message: 'Auto-generated commit for <%= pkg.name %>@<%= pkg.version %>.'
         },
         src: '**/*'
