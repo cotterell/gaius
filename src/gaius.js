@@ -14,7 +14,7 @@
  * @returns {Generator}
  * @yields each item of `items`
  */
-const from = function* (items) {
+var from = function* (items) {
     if (Symbol.iterator in items) {
         yield *items;
     } else if ('length' in items) {
@@ -46,3 +46,5 @@ var partial = function (f, ...args) {
     return f(...args, ...supplied);
   };
 }; // partial
+
+exports.partial = partial;
