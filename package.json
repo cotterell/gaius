@@ -6,7 +6,7 @@
     "scripts": {
         "docs": "documentation build src/** -f html -o docs",
         "docs-lint": "documentation lint src/**",
-        "test": "nyc --reporter=html --reporter=text mocha --reporter mochawesome",
+        "test": "mocha",
         "grunt": "grunt"
     },
     "repository": {
