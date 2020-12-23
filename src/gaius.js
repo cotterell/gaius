@@ -6,9 +6,10 @@
  */
 
 /**
- * Return a generator that yields each item of `items`. If `items` is
+ * Return a _one-use_ generator that yields each item of `items`. If `items` is
  * not iterable and `items.length` is a defined property, then each
- * item is yielded using array-like access.
+ * item is yielded using array-like access. One-use: the generator object is a
+ * one use or temporary object.
  * @generator
  * @param {Iterable} items
  * @returns {Generator}
@@ -42,9 +43,7 @@ exports.from = from;
  * @returns {Function} `(...supplied) => f(...args, ...supplied)`
  */
 var partial = function (f, ...args) {
-  return function(...supplied) {
-    return f(...args, ...supplied);
-  };
+  return (...supplied) => f(...args, ...supplied);
 }; // partial
 
 exports.partial = partial;
