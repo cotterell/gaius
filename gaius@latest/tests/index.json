@@ -5,9 +5,9 @@
     "passes": 3,
     "pending": 0,
     "failures": 0,
-    "start": "2020-12-24T02:02:04.739Z",
-    "end": "2020-12-24T02:02:04.747Z",
-    "duration": 8,
+    "start": "2020-12-24T03:27:50.143Z",
+    "end": "2020-12-24T03:27:50.150Z",
+    "duration": 7,
     "testsRegistered": 3,
     "passPercent": 100,
     "pendingPercent": 0,
@@ -18,7 +18,7 @@
   },
   "results": [
     {
-      "uuid": "3264238a-3f49-4f26-a6e5-86c26380b350",
+      "uuid": "553e39e4-0c7b-4cad-ac93-d98b99098f05",
       "title": "",
       "fullFile": "",
       "file": "",
@@ -27,7 +27,7 @@
       "tests": [],
       "suites": [
         {
-          "uuid": "1becb4c8-e62f-4abd-a907-b6054d5ca343",
+          "uuid": "a5c79757-b5af-4ce0-ae01-e75de93066fc",
           "title": "gaius.partial",
           "fullFile": "/Users/mepcotterell/gaius/test/gaius.test.js",
           "file": "/test/gaius.test.js",
@@ -47,8 +47,8 @@
               "context": null,
               "code": "expect(gaius.partial).to.be.an.instanceof(Function);",
               "err": {},
-              "uuid": "4a62722d-73e7-418f-b8c3-1c1015c901be",
-              "parentUUID": "1becb4c8-e62f-4abd-a907-b6054d5ca343",
+              "uuid": "501ca1ad-1742-4044-9f4f-34893da08b6e",
+              "parentUUID": "a5c79757-b5af-4ce0-ae01-e75de93066fc",
               "isHook": false,
               "skipped": false
             },
@@ -65,8 +65,8 @@
               "context": null,
               "code": "const f = () => {};\nconst g = gaius.partial(f);\nexpect(g).to.be.an.instanceof(Function);",
               "err": {},
-              "uuid": "b8dcf0b2-6034-4e50-aef5-72541b78079f",
-              "parentUUID": "1becb4c8-e62f-4abd-a907-b6054d5ca343",
+              "uuid": "bbd89dc8-b728-4b95-ae36-1dcf734ffa37",
+              "parentUUID": "a5c79757-b5af-4ce0-ae01-e75de93066fc",
               "isHook": false,
               "skipped": false
             },
@@ -83,17 +83,17 @@
               "context": null,
               "code": "const f = (...fArgs) => Array.of(...fArgs);\n    const testArgs = [ 42, '42', [42], null ];\n    const n = testArgs.length;\n    const message = function (...info) {\n      const [ args, supplied, actual, expected ] = info.map(JSON.stringify);\n      return `defined g(..supplied) = f(...${args}, ...supplied);\n      calling f(...${args}, ...${supplied}) = ${expected};\n      calling g(...${supplied}) = ${actual}`;\n    }; // message\n    for (let i = 0; i < n; ++i) {\n      const args = testArgs.slice(0, i);\n      const supplied = testArgs.slice(i);\n      const g = gaius.partial(f, ...args);\n      const actual = g(...supplied);\n      const expected = f(...args, ...supplied);\n      const msg = message(args, supplied, actual, expected);\n      expect(actual).to.eql(expected, msg);\n    } // for",
               "err": {},
-              "uuid": "4b83cf87-8559-4bb9-a4c6-9821cc56e9a8",
-              "parentUUID": "1becb4c8-e62f-4abd-a907-b6054d5ca343",
+              "uuid": "8b36e671-de11-4346-8cdb-9623f8c37de2",
+              "parentUUID": "a5c79757-b5af-4ce0-ae01-e75de93066fc",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "4a62722d-73e7-418f-b8c3-1c1015c901be",
-            "b8dcf0b2-6034-4e50-aef5-72541b78079f",
-            "4b83cf87-8559-4bb9-a4c6-9821cc56e9a8"
+            "501ca1ad-1742-4044-9f4f-34893da08b6e",
+            "bbd89dc8-b728-4b95-ae36-1dcf734ffa37",
+            "8b36e671-de11-4346-8cdb-9623f8c37de2"
           ],
           "failures": [],
           "pending": [],

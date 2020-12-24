@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">37.14% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>9/27</span>
+                <span class='fraction'>13/35</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/13</span>
+                <span class='fraction'>0/15</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">25% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/6</span>
+                <span class='fraction'>2/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">30.77% </span>
+                <span class="strong">35.29% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>8/26</span>
+                <span class='fraction'>12/34</span>
             </div>
         
             
@@ -179,7 +179,30 @@
 <a name='L120'></a><a href='#L120'>120</a>
 <a name='L121'></a><a href='#L121'>121</a>
 <a name='L122'></a><a href='#L122'>122</a>
-<a name='L123'></a><a href='#L123'>123</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L123'></a><a href='#L123'>123</a>
+<a name='L124'></a><a href='#L124'>124</a>
+<a name='L125'></a><a href='#L125'>125</a>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a>
+<a name='L131'></a><a href='#L131'>131</a>
+<a name='L132'></a><a href='#L132'>132</a>
+<a name='L133'></a><a href='#L133'>133</a>
+<a name='L134'></a><a href='#L134'>134</a>
+<a name='L135'></a><a href='#L135'>135</a>
+<a name='L136'></a><a href='#L136'>136</a>
+<a name='L137'></a><a href='#L137'>137</a>
+<a name='L138'></a><a href='#L138'>138</a>
+<a name='L139'></a><a href='#L139'>139</a>
+<a name='L140'></a><a href='#L140'>140</a>
+<a name='L141'></a><a href='#L141'>141</a>
+<a name='L142'></a><a href='#L142'>142</a>
+<a name='L143'></a><a href='#L143'>143</a>
+<a name='L144'></a><a href='#L144'>144</a>
+<a name='L145'></a><a href='#L145'>145</a>
+<a name='L146'></a><a href='#L146'>146</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -207,6 +230,29 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -330,6 +376,29 @@ const map = <span class="fstat-no" title="function not covered" >fu</span>nction
   } // if
 }; // map
 &nbsp;
+exports.map = map;
+&nbsp;
+const mapMixin = {
+<span class="fstat-no" title="function not covered" >  * </span>map(f) {
+<span class="cstat-no" title="statement not covered" >    return exports.map(this, f);</span>
+  } // map
+}; // mapMixin
+&nbsp;
+// Object.assign(Object.prototype, mapMixin);
+&nbsp;
+const monad = <span class="fstat-no" title="function not covered" >fu</span>nction* (obj) {
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  if (!new.target) {</span>
+<span class="cstat-no" title="statement not covered" >    return new monad(obj);</span>
+  } // if
+&nbsp;
+  // Object.assign(this, obj);
+<span class="cstat-no" title="statement not covered" >  Object.assign(obj.prototype, mapMixin);</span>
+&nbsp;
+};
+&nbsp;
+exports.monad = monad;
+&nbsp;
 /**
  * Return a partial function that behaves like `f` called with the provided
  * `args`. If any arguments are supplied in a call to the partial function, then
@@ -368,7 +437,7 @@ exports.partial = partial;
  * @example
  * for (num of Range(10)) console.log(num);
  */
-Range = <span class="fstat-no" title="function not covered" >fu</span>nction(start, stop, step = <span class="branch-0 cbranch-no" title="branch not covered" >undefined)</span> {
+const Range = <span class="fstat-no" title="function not covered" >fu</span>nction(start, stop, step = <span class="branch-0 cbranch-no" title="branch not covered" >undefined)</span> {
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  if (!new.target) {</span>
 <span class="cstat-no" title="statement not covered" >    return new Range(start, stop, step);</span>
@@ -430,7 +499,7 @@ exports.yielding = yielding;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Wed Dec 23 2020 21:02:04 GMT-0500 (Eastern Standard Time)
+                at Wed Dec 23 2020 22:27:50 GMT-0500 (Eastern Standard Time)
             </div>
         </div>
         <script src="prettify.js"></script>
