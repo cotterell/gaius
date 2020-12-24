@@ -39,9 +39,9 @@
               
                 
                 <li><a
-                  href='#yielding'
+                  href='#map'
                   class="">
-                  yielding
+                  map
                   
                 </a>
                 
@@ -52,6 +52,44 @@
                   href='#partial'
                   class="">
                   partial
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#range'
+                  class=" toggle-sibling">
+                  Range
+                  <span class='icon'>▸</span>
+                </a>
+                
+                <div class='toggle-target display-none'>
+                  
+                  
+                    <ul class='list-reset py1-ul pl1'>
+                      <li class='h5'><span>Instance members</span></li>
+                      
+                      <li><a
+                        href='#rangevalues'
+                        class='regular pre-open'>
+                        #values
+                      </a></li>
+                      
+                    </ul>
+                  
+                  
+                  
+                </div>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#yielding'
+                  class="">
+                  yielding
                   
                 </a>
                 
@@ -88,7 +126,7 @@
 
   
   
-  <div>License: MIT</div>
+  
   
   
   
@@ -103,12 +141,7 @@
     <div class='py1 quiet mt1 prose-big'>Related</div>
     
       
-        <a href="https://github.com/cotterell/gaius">https://github.com/cotterell/gaius</a>
-
-      
-    
-      
-        <a href="https://www.npmjs.com/package/gaius">https://www.npmjs.com/package/gaius</a>
+        <a href="https://github.com/cotterell/gaius"><img src="https://img.shields.io/badge/github-cotterell%2Fgaius-blue?style=flat&#x26;logo=github" alt="github"></a>
 
       
     
@@ -141,18 +174,18 @@
   
   <div class='clearfix'>
     
-    <h3 class='fl m0' id='yielding'>
-      yielding
+    <h3 class='fl m0' id='map'>
+      map
     </h3>
     
     
   </div>
   
 
-  <p>Return a <em>one-use</em> generator that yields each item of <code>items</code>.
+  <p>Return a <em>one-use</em> generator that yields <code>f(item)</code> for each <code>item</code> of <code>items</code>.
 One-use: the returned generator object is a one use or temporary object.</p>
 
-    <div class='pre p1 fill-light mt0'>yielding(items: Iterable): Generator</div>
+    <div class='pre p1 fill-light mt0'>map(items: Iterable, f: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function</a>): Generator</div>
   
   
 
@@ -170,7 +203,17 @@ One-use: the returned generator object is a one use or temporary object.</p>
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>items</span> <code class='quiet'>(Iterable)</code>
-	    
+	    items to use
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>f</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function</a>)</code>
+	    mapping function
+
           </div>
           
         </div>
@@ -287,6 +330,253 @@ denote a partial function of <code>f</code>, then a call to <code>g(...supplied)
       <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">const</span> log = gaius.partial(<span class="hljs-built_in">console</span>.log, <span class="hljs-string">'[gaius]'</span>);
 <span class="hljs-keyword">const</span> log = <span class="hljs-function">(<span class="hljs-params">...supplied</span>) =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'[gaius]'</span>, ...supplied);</pre>
     
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='range'>
+      Range
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Represents an arithmetic progression of numbers in a specified range.</p>
+
+    <div class='pre p1 fill-light mt0'>new Range(start: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, stop: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, step: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>start</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>
+            = <code>0</code>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>stop</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>step</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>
+            = <code>1</code>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      <p><p>Just like the <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a> class, <code>Range</code> is directly callable without using the <code>new</code> keyword.</p>
+</p>
+      <pre class='p1 overflow-auto round fill-light'>Range(<span class="hljs-number">10</span>) <span class="hljs-comment">// new Range(10)</span></pre>
+    
+      <p><p>Every <code>Range</code> object is iterable:</p>
+</p>
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">const</span> Range = gaius.Range;</pre>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-built_in">Array</span>.from(Range(<span class="hljs-number">3</span>));    <span class="hljs-comment">// [0, 1, 2]</span>
+<span class="hljs-built_in">Array</span>.from(Range(<span class="hljs-number">3</span>, <span class="hljs-number">6</span>)); <span class="hljs-comment">// [3, 4, 5]</span></pre>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">for</span> (num <span class="hljs-keyword">of</span> Range(<span class="hljs-number">10</span>)) <span class="hljs-built_in">console</span>.log(num);</pre>
+    
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Instance Members</div>
+    <div class="clearfix">
+  
+    <div class='border-bottom' id='rangevalues'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>values()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Return a <em>one-use</em> generator that yields each number in the range.
+One-use: the returned generator object is a one use or temporary object.</p>
+
+    <div class='pre p1 fill-light mt0'>values(): Generator</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>Generator</code>:
+        <code>start</code>
+, 
+<code>start+step</code>
+, 
+<code>...</code>
+, 
+<code>stop</code>
+
+(
+<strong>excluding</strong>
+ 
+<code>stop</code>
+)
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+</div>
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='yielding'>
+      yielding
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Return a <em>one-use</em> generator that yields each item of <code>items</code>.
+One-use: the returned generator object is a one use or temporary object.</p>
+
+    <div class='pre p1 fill-light mt0'>yielding(items: Iterable): Generator</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>items</span> <code class='quiet'>(Iterable)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>Generator</code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
   
 
   
