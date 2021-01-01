@@ -27,6 +27,67 @@ const map = function* (items, f) {
   } // if
 }; // map
 
+exports.map = map;
+
+/**
+ * Return a monad.
+ *
+ * 1. `M(x).bind(f).value == f(x).value`
+ * 2. `M(x).bind(Monad).value == M(x).value`
+ * 3. `M(x).bind(f).bind(g).value == M(x).bind(x => f(x).bind(g)).value`
+ * @kind class
+ * @namespace Monad
+ * @constructor
+ * @param {*} value the monadic value
+ */
+const Monad = function(value) {
+
+  if (!new.target) {
+    return new Monad(value);
+  } // if
+
+  if (value instanceof Monad) {
+    this.value = value.value;
+  } else {
+    this.value = value;
+  } // if
+
+  this.isPrimitive = value !== Object(value);
+  this.isIterable = !this.isPrimitive && (Symbol.iterator in value)
+
+  /**
+  *
+   * @function
+   * @param {function} f a monadic function
+   * @returns {Monad|*}
+   */
+  this.bind = (f) => f(this.value);
+
+  this.map = (f) => {
+    if (this.isIterable) {
+      return this.bind(value => Monad(exports.map(value, f)));
+    } else {
+      return this.bind(value => Monad(f(value)));
+    } // if
+  }; // map
+
+  if (this.isIterable) {
+    this.filter = (f) => {
+      const filter = function* (values) {
+        for (value of values) {
+          if (f(value)) {
+            yield value;
+          } // if
+        } // for
+      }; // filtered
+      return this.bind(value => Monad(filter(value)));
+    };
+  } // if
+
+}; // Monad
+
+exports.Monad = Monad;
+
 /**
  * Return a partial function that behaves like `f` called with the provided
  * `args`. If any arguments are supplied in a call to the partial function, then
@@ -65,7 +126,7 @@ exports.partial = partial;
  * @example
  * for (num of Range(10)) console.log(num);
  */
-Range = function(start, stop, step = undefined) {
+const Range = function(start, stop, step = undefined) {
 
   if (!new.target) {
     return new Range(start, stop, step);
