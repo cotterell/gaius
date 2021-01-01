@@ -49,6 +49,34 @@
               
                 
                 <li><a
+                  href='#monad'
+                  class=" toggle-sibling">
+                  Monad
+                  <span class='icon'>▸</span>
+                </a>
+                
+                <div class='toggle-target display-none'>
+                  
+                  
+                    <ul class='list-reset py1-ul pl1'>
+                      <li class='h5'><span>Instance members</span></li>
+                      
+                      <li><a
+                        href='#monadbind'
+                        class='regular pre-open'>
+                        #bind
+                      </a></li>
+                      
+                    </ul>
+                  
+                  
+                  
+                </div>
+                
+                </li>
+              
+                
+                <li><a
                   href='#partial'
                   class="">
                   partial
@@ -240,6 +268,138 @@ One-use: the returned generator object is a one use or temporary object.</p>
   
 
   
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='monad'>
+      Monad
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Each <code>Monad</code> is an iterable <a href="https://en.wikipedia.org/wiki/Monad_(functional_programming)#Another_example:_List">monad</a>.
+To be a proper monad, the return and >>= functions must work together according to three laws:</p>
+<ol>
+<li><code>M(x).bind(f) == f(x)</code></li>
+<li><code>M(x).bind(Monad) == M(x)</code></li>
+<li><code>M(x).bind(f).bind(g) == M(x).bind(x => f(x).bind(g))</code></li>
+</ol>
+
+    <div class='pre p1 fill-light mt0'>new Monad()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Instance Members</div>
+    <div class="clearfix">
+  
+    <div class='border-bottom' id='monadbind'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>bind(f)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  
+    <div class='pre p1 fill-light mt0'>bind(f: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>): (<a href="#monad">Monad</a> | any)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>f</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
+	    a monadic function
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>(<a href="#monad">Monad</a> | any)</code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+</div>
 
   
 
