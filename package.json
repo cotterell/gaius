@@ -4,8 +4,7 @@
     "description": "Fast functional programming.",
     "main": "src/gaius.js",
     "scripts": {
-        "docs": "documentation build src/** -f html -o docs",
-        "docs-lint": "documentation lint src/**",
+        "docs": "jsdoc -c jsdoc.config.js",
         "test": "mocha",
         "grunt": "grunt"
     },
@@ -25,18 +24,15 @@
     },
     "homepage": "https://github.com/cotterell/gaius",
     "devDependencies": {
-        "chai": "^4.2.0",
+        "chai": "^4.3.0",
         "copy-dir": "^1.3.0",
-        "documentation": "^13.1.0",
         "grunt": "^1.3.0",
         "grunt-gh-pages": "^4.0.0",
         "grunt-mkdir": "^1.1.0",
         "grunt-run": "^0.8.1",
-        "grunt-simple-nyc": "^3.0.1",
-        "highlight.js": ">=10.4.1",
-        "markdown-it": "^12.0.4",
-        "mocha": "^8.2.1",
-        "mochawesome": "^6.2.1",
-        "nyc": "^15.1.0"
+        "jsdoc": "^3.6.10",
+        "markdown-it": "^12.3.2",
+        "mocha": "^9.2.2",
+        "mochawesome": "^7.1.2"
     }
 }

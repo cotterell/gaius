@@ -1,6 +1,6 @@
 # Gaius
 
-> Fast functinal programming.
+*Fast functinal programming.*
 
 [![npm version](https://badge.fury.io/js/gaius.svg)](https://badge.fury.io/js/gaius)
 [![Build Status](https://travis-ci.com/cotterell/gaius.svg?branch=main)](https://travis-ci.com/cotterell/gaius)

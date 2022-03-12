@@ -3,7 +3,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-gh-pages');
   grunt.loadNpmTasks('grunt-mkdir');
   grunt.loadNpmTasks('grunt-run');
-  grunt.loadNpmTasks('grunt-simple-nyc');
 
   // Project configuration.
   grunt.initConfig({
@@ -23,7 +22,7 @@ module.exports = function(grunt) {
     },
     run: {
       docs: {
-        exec: 'documentation build src/** -f html -o <%= pkg_current %>/docs'
+        exec: 'jsdoc -c jsdoc.config.js -d <%= pkg_current %>/docs'
       }
     },
     mkdir: {
@@ -71,11 +70,12 @@ module.exports = function(grunt) {
 
   grunt.registerTask('dist', [
     'mkdir:dist',
-    'nyc:test',
     'run:docs',
     'dist-copy-latest',
     'dist-index',
     'gh-pages:dist']
   );
+
+  grunt.registerTask('default', []);
 
 };
