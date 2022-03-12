@@ -21,9 +21,12 @@ module.exports = function(grunt) {
       }
     },
     run: {
+      test: {
+        exec: 'mocha --reporter mochawesome --reporter-options "quiet=true,reportDir=<%= pkg_current %>/tests,reportFilename=index.html"',
+      },
       docs: {
-        exec: 'jsdoc -c jsdoc.config.js -d <%= pkg_current %>/docs'
-      }
+        exec: 'jsdoc -c jsdoc.config.js -d <%= pkg_current %>/docs',
+      },
     },
     mkdir: {
       dist: {
@@ -48,7 +51,7 @@ module.exports = function(grunt) {
     grunt.config.requires('pkg_current');
     grunt.config.requires('pkg_latest');
     //grunt.task.requires(['nyc:test', 'run:docs']);
-    grunt.task.requires(['run:docs']);
+    grunt.task.requires(['run:test', 'run:docs']);
     const copydir = require('copy-dir');
     const pkg_current = grunt.config('pkg_current');
     const pkg_latest = grunt.config('pkg_latest');
@@ -71,6 +74,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('dist', [
     'mkdir:dist',
+    'run:test',
     'run:docs',
     'dist-copy-latest',
     'dist-index',
