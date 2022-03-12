@@ -1,7 +1,8 @@
 /**
  * **Gaius** is a library for fast functional programming.
+ *
+ * [![github](https://img.shields.io/badge/github-cotterell%2Fgaius-blue?style=flat&logo=github)](https://github.com/cotterell/gaius)
  * @module gaius
- * @see [![github](https://img.shields.io/badge/github-cotterell%2Fgaius-blue?style=flat&logo=github)](https://github.com/cotterell/gaius)
  * @example
  * const gaius = require('gaius');
  */
