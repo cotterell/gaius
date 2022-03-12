@@ -3,7 +3,6 @@
   "version": "0.4.1",
   "description": "Fast functional programming.",
   "main": "src/gaius.js",
-  "type": "module",
   "scripts": {
     "docs": "jsdoc -c jsdoc.config.js",
     "test": "mocha",
