@@ -22,7 +22,7 @@ module.exports = function(grunt) {
     },
     run: {
       test: {
-        exec: 'mocha --reporter mochawesome --reporter-options "quiet=true,reportDir=<%= pkg_current %>/tests,reportFilename=index.html"',
+        exec: 'mocha --reporter mochawesome --reporter-options "quiet=true,reportDir=<%= pkg_current %>/tests,reportFilename=index.html,reportTitle=<%= pkg.name %>@<%= pkg.version %>"',
       },
       docs: {
         exec: 'jsdoc -c jsdoc.config.js -d <%= pkg_current %>/docs',
