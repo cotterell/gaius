@@ -47,7 +47,8 @@ module.exports = function(grunt) {
   grunt.registerTask('dist-copy-latest', 'Copy the current dist/gaius@version directory into dist/gaius@latest.', function() {
     grunt.config.requires('pkg_current');
     grunt.config.requires('pkg_latest');
-    grunt.task.requires(['nyc:test', 'run:docs']);
+    //grunt.task.requires(['nyc:test', 'run:docs']);
+    grunt.task.requires(['run:docs']);
     const copydir = require('copy-dir');
     const pkg_current = grunt.config('pkg_current');
     const pkg_latest = grunt.config('pkg_latest');
