@@ -5,9 +5,9 @@
     "passes": 3,
     "pending": 0,
     "failures": 0,
-    "start": "2022-03-12T22:26:59.244Z",
-    "end": "2022-03-12T22:26:59.248Z",
-    "duration": 4,
+    "start": "2022-03-12T22:36:46.842Z",
+    "end": "2022-03-12T22:36:46.845Z",
+    "duration": 3,
     "testsRegistered": 3,
     "passPercent": 100,
     "pendingPercent": 0,
@@ -18,7 +18,7 @@
   },
   "results": [
     {
-      "uuid": "7941e78e-9fbd-4734-8955-238fb138b098",
+      "uuid": "a4596ce3-cd9d-4713-b0c7-8126f98cf04b",
       "title": "",
       "fullFile": "/Users/mepcotterell/gaius/test/gaius.test.js",
       "file": "/test/gaius.test.js",
@@ -27,7 +27,7 @@
       "tests": [],
       "suites": [
         {
-          "uuid": "0f7af5bb-9e87-4231-80cf-6793df4223f8",
+          "uuid": "93dab28d-59f4-47c5-8ce2-9e4a6a385dad",
           "title": "gaius.partial",
           "fullFile": "/Users/mepcotterell/gaius/test/gaius.test.js",
           "file": "/test/gaius.test.js",
@@ -38,7 +38,7 @@
               "title": "is a function",
               "fullTitle": "gaius.partial is a function",
               "timedOut": false,
-              "duration": 0,
+              "duration": 1,
               "state": "passed",
               "speed": "fast",
               "pass": true,
@@ -47,8 +47,8 @@
               "context": null,
               "code": "expect(gaius.partial).to.be.an.instanceof(Function);",
               "err": {},
-              "uuid": "d2c34cb9-3f5a-4e4c-b440-e81c8e43540b",
-              "parentUUID": "0f7af5bb-9e87-4231-80cf-6793df4223f8",
+              "uuid": "dfe499ed-e04f-4937-a0d8-44ae61195f68",
+              "parentUUID": "93dab28d-59f4-47c5-8ce2-9e4a6a385dad",
               "isHook": false,
               "skipped": false
             },
@@ -65,8 +65,8 @@
               "context": null,
               "code": "const f = () => {};\nconst g = gaius.partial(f);\nexpect(g).to.be.an.instanceof(Function);",
               "err": {},
-              "uuid": "6df9a82e-6b46-4ec1-93fb-822515cab986",
-              "parentUUID": "0f7af5bb-9e87-4231-80cf-6793df4223f8",
+              "uuid": "2f703eed-c79d-4f01-87fb-c7da14918003",
+              "parentUUID": "93dab28d-59f4-47c5-8ce2-9e4a6a385dad",
               "isHook": false,
               "skipped": false
             },
@@ -83,22 +83,22 @@
               "context": null,
               "code": "const f = (...fArgs) => Array.of(...fArgs);\n    const testArgs = [ 42, '42', [42], null ];\n    const n = testArgs.length;\n    const message = function (...info) {\n      const [ args, supplied, actual, expected ] = info.map(JSON.stringify);\n      return `defined g(..supplied) = f(...${args}, ...supplied);\n      calling f(...${args}, ...${supplied}) = ${expected};\n      calling g(...${supplied}) = ${actual}`;\n    }; // message\n    for (let i = 0; i < n; ++i) {\n      const args = testArgs.slice(0, i);\n      const supplied = testArgs.slice(i);\n      const g = gaius.partial(f, ...args);\n      const actual = g(...supplied);\n      const expected = f(...args, ...supplied);\n      const msg = message(args, supplied, actual, expected);\n      expect(actual).to.eql(expected, msg);\n    } // for",
               "err": {},
-              "uuid": "2699e0e7-eec2-4077-868e-7a025acb9bda",
-              "parentUUID": "0f7af5bb-9e87-4231-80cf-6793df4223f8",
+              "uuid": "d3e44e51-1101-4e70-93ee-91f7b86b75b6",
+              "parentUUID": "93dab28d-59f4-47c5-8ce2-9e4a6a385dad",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "d2c34cb9-3f5a-4e4c-b440-e81c8e43540b",
-            "6df9a82e-6b46-4ec1-93fb-822515cab986",
-            "2699e0e7-eec2-4077-868e-7a025acb9bda"
+            "dfe499ed-e04f-4937-a0d8-44ae61195f68",
+            "2f703eed-c79d-4f01-87fb-c7da14918003",
+            "d3e44e51-1101-4e70-93ee-91f7b86b75b6"
           ],
           "failures": [],
           "pending": [],
           "skipped": [],
-          "duration": 1,
+          "duration": 2,
           "root": false,
           "rootEmpty": false,
           "_timeout": 2000
@@ -134,7 +134,8 @@
       "options": {
         "quiet": "true",
         "reportDir": "dist/gaius@0.4.1/tests",
-        "reportFilename": "index.html"
+        "reportFilename": "index.html",
+        "reportTitle": "gaius@0.4.1"
       },
       "version": "6.1.1"
     }
