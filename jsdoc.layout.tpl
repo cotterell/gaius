@@ -3,7 +3,6 @@
 <?js
  let require = process.mainModule.require;
  let package = require(obj.env.pwd + "/package.json");
- console.log(package);
 ?>
 <head>
     <meta charset="utf-8">
