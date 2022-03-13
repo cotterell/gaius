@@ -1,20 +1,40 @@
 module.exports = function(grunt) {
 
   const copydir = require('copy-dir');
+  const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
   const fs = require('fs');
-  const md = require('markdown-it')();
+  const liquidjs = (...args) => import('liquidjs').then(liquidjs => new liquidjs.Liquid(...args));
   const pkg = grunt.file.readJSON('./package.json');
+
+  const data = {
+    pkg: pkg,
+    npm: {},
+  };
+
+  const config = prop => {
+    grunt.config.requires(prop);
+    return grunt.config(prop);
+  }; // config
 
   grunt.loadNpmTasks('grunt-babel');
   grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-downloadfile');
   grunt.loadNpmTasks('grunt-gh-pages');
-  grunt.loadNpmTasks('grunt-liquify');
   grunt.loadNpmTasks('grunt-mkdir');
   grunt.loadNpmTasks('grunt-run');
 
   // Project configuration.
   grunt.initConfig({
+    gaius: {
+      package: grunt.file.readJSON('./package.json'),
+      dist: {
+        base: "dist",
+        current: '<%= gaius.dist.base %>/gaius@<%= gaius.package.version %>',
+        latest: '<%= gaius.dist.base %>/gaius@latest',
+      },
+      templates: {
+        "dist-index": "dist.liquid",
+      },
+    },
     pkg: pkg,
     pkg_dist: 'dist',
     pkg_current: '<%= pkg_dist %>/<%= pkg.name %>@<%= pkg.version %>',
@@ -50,7 +70,8 @@ module.exports = function(grunt) {
         sourceMap: true,
         presets: [
           [
-            "@babel/preset-env", {
+            "@babel/preset-env",
+            {
               bugfixes: true,
               useBuiltIns: "usage",
               corejs: 3,
@@ -59,7 +80,8 @@ module.exports = function(grunt) {
         ],
         plugins: [
           [
-            "@babel/plugin-transform-regenerator", {
+            "@babel/plugin-transform-regenerator",
+            {
               regenerator: true,
               corejs: 3,
             },
@@ -78,26 +100,23 @@ module.exports = function(grunt) {
     clean: [
       'dist',
     ],
-    downloadfile: {
-      options: {
-        dest: 'dist',
-        overwriteEverytime: true,
-      },
-      files: {
-        'registry.json': "https://registry.npmjs.org/gaius",
-      },
-    },
-    liquify: {
-      options: {
-        data: {
-          pkg: pkg,
-        },
-      },
-      index: {
-        src: 'dist.liquid',
-        dest: 'dist/index.html',
-      },
-    },
+  });
+
+  grunt.registerTask('download-registry', 'Download npm registry.', function() {
+    let done = this.async();
+    let url = "https://registry.npmjs.org/gaius";
+    let error = e => {
+      grunt.log.error(e);
+      done();
+    };
+    fetch(url).then(res => {
+      grunt.log.ok(`fetched ${url}`);
+      res.json().then(json => {
+        grunt.log.ok(`parsed JSON response`);
+        data.npm = json;
+        done();
+      }).catch(error);
+    }).catch(error);
   });
 
   grunt.registerTask('dist-copy-latest', 'Copy the current dist/gaius@version directory into dist/gaius@latest.', function() {
@@ -111,15 +130,28 @@ module.exports = function(grunt) {
     grunt.log.ok(`copied ${pkg_current} to ${pkg_latest}`);
   });
 
-  grunt.registerTask('dist-index', 'Create the dist/index.html file.', function() {
-    grunt.config.requires('pkg_dist');
+  grunt.registerTask('gaius-dist-index', 'Create the gaius dist/index.html file.', function() {
     grunt.task.requires('mkdir:dist');
-    const pkg_dist = grunt.config('pkg_dist');
-    const pkg_dist_index = `${pkg_dist}/index.html`;
-    template = fs.readFileSync('dist.md.tpl', 'utf8');
-    grunt.log.ok('read dist.md.tpl');
-    fs.writeFileSync(pkg_dist_index, md.render(template), 'utf8');
-    grunt.log.ok(`created ${pkg_dist_index} from dist.md.tpl`);
+    let done = this.async();
+    let error = e => {
+      grunt.log.error(e);
+      done();
+    };
+    let template_file = config('gaius.templates.dist-index');
+    let dist_base = config("gaius.dist.base");
+    let dist_index = `${dist_base}/index.html`;
+    liquidjs().then(engine => {
+      grunt.log.ok('loaded liquidjs engine');
+      let template = fs.readFileSync(template_file, 'utf8');
+      grunt.log.ok(`read ${template_file}`);
+      engine.parseAndRender(template, {pkg: pkg})
+        .then(output => {
+          grunt.log.ok(`parsed ${template_file}`);
+          fs.writeFileSync(dist_index, output, 'utf8');
+          grunt.log.ok(`saved to ${dist_index}`);
+          done();
+        }).catch(error);
+    }).catch(error);
   });
 
   grunt.registerTask('dist', [
@@ -129,9 +161,9 @@ module.exports = function(grunt) {
     'run:test',
     'run:docs',
     'dist-copy-latest',
-    'liquify',
-    'gh-pages:dist']
-                    );
+    'gaius-dist-index',
+    'gh-pages:dist',
+  ]);
 
   grunt.registerTask('default', []);
 
