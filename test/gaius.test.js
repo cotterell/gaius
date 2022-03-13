@@ -1,6 +1,6 @@
 const chai = require('chai');
 const expect = chai.expect;
-const gaius = require('../src/gaius.js');
+const gaius = require('../dist/gaius.js');
 
 describe('gaius.partial', () => {
 

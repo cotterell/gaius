@@ -1,12 +1,21 @@
 module.exports = function(grunt) {
 
+  const copydir = require('copy-dir');
+  const fs = require('fs');
+  const md = require('markdown-it')();
+  const pkg = grunt.file.readJSON('./package.json');
+
+  grunt.loadNpmTasks('grunt-babel');
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-downloadfile');
   grunt.loadNpmTasks('grunt-gh-pages');
+  grunt.loadNpmTasks('grunt-liquify');
   grunt.loadNpmTasks('grunt-mkdir');
   grunt.loadNpmTasks('grunt-run');
 
   // Project configuration.
   grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json'),
+    pkg: pkg,
     pkg_dist: 'dist',
     pkg_current: '<%= pkg_dist %>/<%= pkg.name %>@<%= pkg.version %>',
     pkg_latest: '<%= pkg_dist %>/<%= pkg.name %>@latest',
@@ -35,24 +44,67 @@ module.exports = function(grunt) {
         }
       }
     },
-    nyc: {
-      test: {
-        options: {
-          reporter: ['html', 'text'],
-          reportDir: '<%= pkg_current %>/coverage'
+    babel: {
+      options: {
+        minified: true,
+        sourceMap: true,
+        presets: [
+          [
+            "@babel/preset-env", {
+              bugfixes: true,
+              useBuiltIns: "usage",
+              corejs: 3,
+            },
+          ],
+        ],
+        plugins: [
+          [
+            "@babel/plugin-transform-regenerator", {
+              regenerator: true,
+              corejs: 3,
+            },
+          ],
+        ],
+        only: ["./src"],
+      },
+      dist: {
+        files: {
+          "<%= pkg_current %>/gaius.js": "src/gaius.js",
+          "dist/gaius.js": "src/gaius.js",
         },
-        cmd: false,
-        args: ['mocha', '--reporter', 'mochawesome', '--reporter-options', 'quiet=true,reportDir=<%= pkg_current %>/tests,reportFilename=index.html']
-      }
-    }
+        parser: "@babel/eslint-parser",
+      },
+    },
+    clean: [
+      'dist',
+    ],
+    downloadfile: {
+      options: {
+        dest: 'dist',
+        overwriteEverytime: true,
+      },
+      files: {
+        'registry.json': "https://registry.npmjs.org/gaius",
+      },
+    },
+    liquify: {
+      options: {
+        data: {
+          pkg: pkg,
+        },
+      },
+      index: {
+        src: 'dist.liquid',
+        dest: 'dist/index.html',
+      },
+    },
   });
 
   grunt.registerTask('dist-copy-latest', 'Copy the current dist/gaius@version directory into dist/gaius@latest.', function() {
     grunt.config.requires('pkg_current');
     grunt.config.requires('pkg_latest');
     //grunt.task.requires(['nyc:test', 'run:docs']);
-    grunt.task.requires(['run:test', 'run:docs']);
-    const copydir = require('copy-dir');
+    grunt.task.requires(['babel', 'run:test', 'run:docs']);
     const pkg_current = grunt.config('pkg_current');
     const pkg_latest = grunt.config('pkg_latest');
     copydir.sync(pkg_current, pkg_latest);
@@ -62,8 +114,6 @@ module.exports = function(grunt) {
   grunt.registerTask('dist-index', 'Create the dist/index.html file.', function() {
     grunt.config.requires('pkg_dist');
     grunt.task.requires('mkdir:dist');
-    const fs = require('fs');
-    const md = require('markdown-it')();
     const pkg_dist = grunt.config('pkg_dist');
     const pkg_dist_index = `${pkg_dist}/index.html`;
     template = fs.readFileSync('dist.md.tpl', 'utf8');
@@ -73,13 +123,15 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('dist', [
+    "clean",
     'mkdir:dist',
+    'babel',
     'run:test',
     'run:docs',
     'dist-copy-latest',
-    'dist-index',
+    'liquify',
     'gh-pages:dist']
-  );
+                    );
 
   grunt.registerTask('default', []);
 
