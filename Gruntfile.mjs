@@ -35,7 +35,7 @@ export default function(grunt) {
     'gh-pages': {
       dist: {
         options: {
-          base: '<%= gaius.dist %>',
+          base: '<%= gaius.dist.base %>',
           add: true,
           message: 'Auto-generated commit for <%= gaius.dist.current %>.'
         },
