@@ -1,6 +1,5 @@
-const chai = require('chai');
-const expect = chai.expect;
-const gaius = require('../dist/gaius.js');
+import { expect } from 'chai';
+import * as gaius from '../src/gaius.js';
 
 describe('gaius.partial', () => {
 

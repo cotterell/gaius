@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * **Gaius** is a library for fast functional programming.
  *
@@ -8,17 +10,17 @@
  */
 
 
- /**
- * Return a _one-use_ generator that yields `f(item)` for each `item` of `items`.
- * One-use: the returned generator object is a one use or temporary object.
+/**
+ * Return a _one-use_ generator that yields `f(item)` for each `item` of
+ * `items`. One-use: the returned generator object is a one use or temporary
+ * object.
  * @generator
  * @function
  * @param {Iterable} items items to use
  * @param {Function} f mapping function
- * @returns {Generator}
  * @yields `f(item)` for each `item` of `items`
  */
-const map = function* (items, f) {
+export function* map(items, f) {
   if (f == null) {
     yield* yielding(items);
   } else {
@@ -28,66 +30,51 @@ const map = function* (items, f) {
   } // if
 }; // map
 
-exports.map = map;
-
 /**
- * Return a monad.
+ * Represents a monad.
  *
  * 1. `M(x).bind(f).value == f(x).value`
  * 2. `M(x).bind(Monad).value == M(x).value`
  * 3. `M(x).bind(f).bind(g).value == M(x).bind(x => f(x).bind(g)).value`
- * @kind class
- * @namespace Monad
- * @constructor
- * @param {*} value the monadic value
  */
-const Monad = function(value) {
-
-  if (!new.target) {
-    return new Monad(value);
-  } // if
-
-  if (value instanceof Monad) {
-    this.value = value.value;
-  } else {
-    this.value = value;
-  } // if
-
-  this.isPrimitive = value !== Object(value);
-  this.isIterable = !this.isPrimitive && (Symbol.iterator in value)
+export class Monad {
+  /**
+   * Construct a monad.
+   * @constructor
+   * @param {*} value the monadic value
+   */
+  constructor(value) {
+    if (value instanceof Monad) {
+      this.value = value.value;
+    } else {
+      this.value = value;
+    } // if
+    this.isPrimitive = value !== Object(value);
+    this.isIterable = !this.isPrimitive && (Symbol.iterator in value);
+  } // constructor
 
   /**
-  *
-   * @function
+   *
    * @param {function} f a monadic function
-   * @returns {Monad|*}
+   * @return {Monad|*}
    */
-  this.bind = (f) => f(this.value);
+  bind(f) {
+    return f(this.value);
+  } // bind
 
-  this.map = (f) => {
+  /**
+   *
+   * @param {function} f a monadic function
+   * @return {Monad|*}
+   */
+  map(f) {
     if (this.isIterable) {
-      return this.bind(value => Monad(exports.map(value, f)));
+      return this.bind((value) => new Monad(map(value, f)));
     } else {
-      return this.bind(value => Monad(f(value)));
+      return this.bind((value) => new Monad(f(value)));
     } // if
-  }; // map
-
-  if (this.isIterable) {
-    this.filter = (f) => {
-      const filter = function* (values) {
-        for (value of values) {
-          if (f(value)) {
-            yield value;
-          } // if
-        } // for
-      }; // filtered
-      return this.bind(value => Monad(filter(value)));
-    };
-  } // if
-
-}; // Monad
-
-exports.Monad = Monad;
+  } // map
+} // Monad
 
 /**
  * Return a partial function that behaves like `f` called with the provided
@@ -101,13 +88,12 @@ exports.Monad = Monad;
  * const log = (...supplied) => console.log('[gaius]', ...supplied);
  * @param {Function} f function to partially apply
  * @param {...*} args arguments to provide for partial application
- * @returns {Function} `(...supplied) => f(...args, ...supplied)`
+ * @return {Function} `(...supplied) => f(...args, ...supplied)`
  */
-const partial = function (f, ...args) {
+export const partial = function(f, ...args) {
   return (...supplied) => f(...args, ...supplied);
 }; // partial
 
-exports.partial = partial;
 
 /**
  * Represents an arithmetic progression of numbers in a specified range.
@@ -117,7 +103,7 @@ exports.partial = partial;
  * @param {number} [start=0]
  * @param {number} stop
  * @param {number} [step=1]
- * @example <caption>Just like the {@link Array} class, `Range` is directly callable without using the `new` keyword.</caption>
+ * @example
  * Range(10) // new Range(10)
  * @example <caption>Every `Range` object is iterable:</caption>
  * const Range = gaius.Range;
@@ -127,8 +113,7 @@ exports.partial = partial;
  * @example
  * for (num of Range(10)) console.log(num);
  */
-const Range = function(start, stop, step = undefined) {
-
+export const Range = function(start, stop, step = undefined) {
   if (!new.target) {
     return new Range(start, stop, step);
   } // if
@@ -143,8 +128,6 @@ const Range = function(start, stop, step = undefined) {
    * @instance
    * @memberof Range
    * @generator
-   * @returns {Generator} `start`, `start+step`, `...`, `stop`
-   *          (**excluding** `stop`)
    */
   this.values = function* () {
     let value = this.start;
@@ -152,17 +135,14 @@ const Range = function(start, stop, step = undefined) {
       yield value;
       value += this.step;
     } // while
-  } // values
+  }; // values
 
   this[Symbol.iterator] = this.values;
 
-  //get this[Symbol.toStringTag]() {
+  // get this[Symbol.toStringTag]() {
   //  return `range(${this.start}, ${this.stop}, ${this.step})`;
-  //} // toStringTag
-
+  // } // toStringTag
 }; // range
-
-exports.Range = Range;
 
 /**
  * Return a _one-use_ generator that yields each item of `items`.
@@ -170,15 +150,12 @@ exports.Range = Range;
  * @generator
  * @function
  * @param {Iterable} items
- * @returns {Generator}
  * @yields each item of `items`
  */
-const yielding = function* (items) {
+export const yielding = function* (items) {
   if (Symbol.iterator in items) {
-    yield *items;
+    yield* items;
   } else {
-    throw 'items is not iterable';
+    throw new Error('items is not iterable');
   } // if
 }; // yielding
-
-exports.yielding = yielding;
