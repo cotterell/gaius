@@ -35,7 +35,7 @@
     "grunt-mkdir": "^1.1.0",
     "grunt-run": "^0.8.1",
     "jsdoc": "^3.6.10",
-    "liquidjs": "^9.36.0",
+    "liquidjs": "^10.0.0",
     "mocha": "^10.0",
     "mochawesome": "^7.1",
     "node-fetch": "^3.2"
